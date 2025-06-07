@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        var tasks_arr = {{.Tasks}}
+        {{if eq (len .Tasks) 0}}
+            tasks_arr = []
+        {{end}}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusTask | Modern Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <h1>NexusTask</h1>
+            </div>
+            <div class="user-actions">
+                <button class="btn btn-outline">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="app-title">
+            <h2>My Tasks</h2>
+            <span class="task-count">3 tasks</span>
+        </div>
+
+        <div class="task-input-container">
+            <div class="task-input">
+                <input type="text" placeholder="What needs to be done?">
+                <button type="button" onclick="sendTask()" class="add-btn">
+                    <i class="fas fa-plus"></i> Add Task
+                </button>
+            </div>
+        </div>
+
+        <div class="task-filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Active</button>
+            <button class="filter-btn">Completed</button>
+            <button class="filter-btn">High Priority</button>
+        </div>
+
+        <div id="task-list" class="task-list">
+            {{range $i, $task := .Tasks}}
+            <!-- Task Item 1 -->
+                <div task-id="{{add $i 1}}" class="task-item">
+                    <div class="priority-indicator priority-high"></div>
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-text">{{$task.Text}}</div>
+                    <div class="task-date">Today</div>
+                    <div class="task-actions">
+                        <button class="task-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button type="submit" onclick="" class="task-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            {{end}}
+            <!-- Task Item 2 
+            <div class="task-item completed">
+                <div class="priority-indicator priority-medium"></div>
+                <input type="checkbox" class="task-checkbox" checked>
+                <div class="task-text">Buy groceries for the week</div>
+                <div class="task-date">Yesterday</div>
+                <div class="task-actions">
+                    <button class="task-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="task-btn delete-btn"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="priority-indicator priority-low"></div>
+                <input type="checkbox" class="task-checkbox">
+                <div class="task-text">Schedule dentist appointment</div>
+                <div class="task-date">Tomorrow</div>
+                <div class="task-actions">
+                    <button class="task-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="task-btn delete-btn"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+         -->
+        <!-- Empty State (hidden by default) -->
+        <!-- <div class="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>No tasks found</h3>
+            <p>Add a new task to get started</p>
+        </div> -->
+    </div>
+
+    <footer>
+        <p>&copy; 2023 NexusTask. All rights reserved.</p>
+    </footer>
+    <script src="load_task.js"></script>
+    <script src="send_task.js"></script>
+    <script>
+        // Basic interactive functionality
+        //document.addEventListener('DOMContentLoaded', function() {
+        //    // Toggle task completion
+        //    const checkboxes = document.querySelectorAll('.task-checkbox');
+        //    checkboxes.forEach(checkbox => {
+        //        checkbox.addEventListener('change', function() {
+        //            const taskItem = this.closest('.task-item');
+        //            taskItem.classList.toggle('completed', this.checked);
+        //            updateTaskCount();
+        //        });
+        //    });
+
+            // Filter buttons
+
+        //});
+    </script>
+            <script>
+            let task_input = document.getElementsByClassName('task-input')[0]
+            task_input.addEventListener('keydown', e => {
+                if (e.key == 'Enter') {
+                    task_input.children[0].value = task_input.children[0].value.trim()
+                    sendTask()
+                    task_input.children[0].value = ""
+                }
+            })
+                document.getElementById('task-list').addEventListener('click', (e) => {
+                    console.log(123)
+                    const delete_btn = event.target.closest('.delete-btn')
+                    if (delete_btn)
+                    {
+                        const task_div = delete_btn.closest('.task-item')
+                        const id = task_div.getAttribute('task-id')
+                        console.log(JSON.stringify({n:Number(id)}))
+                        fetch('/api/remove_task', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({n:Number(id)})
+                        })
+                        .then(response => window.location.reload())
+                        console.log(1, Number(id))
+                    }
+                })
+            </script>
+</body>
+</html>
