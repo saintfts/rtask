@@ -130,8 +130,9 @@ func StartServer(tasks []Task, port string){
             fmt.Println(tasks)
             return c.JSON(tasks)
         })
-
-        app.Listen(":" + settings.AppSettings.Port)
+        if err := app.Listen(":" + settings.AppSettings.Port); err != nil {
+            log.Fatalf("couldn't make port listen: %v", err)
+        }
 }
 
 
