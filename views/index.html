@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        var tasks_arr = {{.Tasks}}
+        {{if eq (len .Tasks) 0}}
+            tasks_arr = []
+        {{end}}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rtask | Remote tasking</title>
+    <link rel="stylesheet" href="style/style.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css"> <!--Made a local copy, because this app should work offline -->
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <h1>RTask</h1>
+            </div>
+            <!--Todo...-->
+            <div class="user-actions">
+                <button class="btn btn-outline">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            <!--Todo...-->
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="app-title">
+            <h2>My Tasks</h2>
+        </div>
+
+        <div class="task-input-container">
+            <div class="task-input">
+                <input type="text" placeholder="What needs to be done?">
+                <button type="button" onclick="sendTask()" class="add-btn">
+                    <i class="fas fa-plus"></i> Add Task
+                </button>
+            </div>
+        </div>
+
+        <div class="task-filters">
+            <button class="filter-btn active">All</button>
+        </div>
+
+        <div id="task-list" class="task-list">
+            {{range $i, $task := .Tasks}}
+            <!-- Task Item 1 -->
+                <div task-id="{{add $i 1}}" class="task-item">
+                    <div class="priority-indicator priority-high"></div>
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-text">{{$task.Text}}</div>
+                    <div class="task-date">Today</div>
+                    <div class="task-actions">
+                        <button class="task-btn edit-btn"><i class="fas fa-edit"></i></button>
+                        <button type="submit" onclick="" class="task-btn delete-btn"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            {{end}}
+    </div>
+
+    <footer>
+        <a href="https://github.com/saintfts/rtask">RTask 2025</a>
+    </footer>
+    <script src="scripts/load_task.js"></script>
+    <script src="scripts/send_task.js"></script>
+    <script src="scripts/triggers.js"></script>
+    
+</body>
+</html>

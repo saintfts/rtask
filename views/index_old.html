@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- <div id="data" data-tasks="{{.Tasks}}" data-tasks_len=""></div>-->
+        <script>
+            var tasks_arr = {{.Tasks}}// tasks array that should be accessed throught all the scripts
+        </script>
+ 
+
+    </head>
+    <body>
+        <textarea id="tasks_messagebox" rows="4" cols="25" style="text-align: center;">New task</textarea>
+        <button onclick="sendTask()">Send Task</button>
+
+        <button onclick="get_new_tasks()">Refresh</button>
+        <h1 style="text-align: center;">Noting app:</h1>
+        <div id="tasks">
+            {{range .Tasks}}
+                <div style="display: flex;align-items: center;" class="task">
+                    <h1>{{.Id}}) {{.Text}}</h1><button style="height: 35px;width: 120px;">Complete</button>
+                </div>
+            {{end}}
+        </div>
+        <script src="/load_task.js"></script>
+        <script src="/send_task.js"></script>
+    </body>
+</html>
