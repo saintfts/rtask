@@ -1,1 +1,1 @@
-# RTask: Tasking webadd written in Go
+# RTask: Tasking webapp written in Go
